@@ -28,19 +28,19 @@ export function TrackIncidentPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 sm:py-12 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-xs font-semibold">
+    <div className="max-w-xl mx-auto px-3.5 sm:px-6 py-6 sm:py-12 space-y-5 sm:space-y-6">
+      <div className="text-center space-y-1.5 sm:space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-[11px] sm:text-xs font-semibold">
           <ShieldAlert className="w-3.5 h-3.5 text-[#C65319]" />
           <span>सुरक्षित मदत तिकीट ट्रॅकिंग / Secure Request Tracking</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#292723]">आपल्या विनंतीची सद्यस्थिती</h1>
+        <h1 className="text-xl sm:text-3xl font-display font-bold text-[#292723]">आपल्या विनंतीची सद्यस्थिती</h1>
         <p className="text-xs sm:text-sm text-[#7A6858]">
           मदत विनंती नोंदवताना मिळालेला खाजगी ट्रॅकिंग टोकन येथे प्रविष्ट करा.
         </p>
       </div>
 
-      <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 sm:p-8 shadow-xs space-y-5">
+      <div className="bg-white border border-[#E2DDD3] rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xs space-y-4 sm:space-y-5">
         <form onSubmit={handleTrackSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-[#292723] mb-1.5 flex items-center gap-1.5">

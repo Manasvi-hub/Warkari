@@ -21,59 +21,60 @@ export function HomePage() {
       {/* 1. HERO SECTION: Image-Led Immersive Visual Centerpiece */}
       {/* ------------------------------------------------------------- */}
       <section className="relative w-full bg-[#FAF8F3] overflow-hidden border-b border-[#E2DDD3]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 sm:pt-10 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 pb-8 sm:pt-10 sm:pb-16">
           {/* Brand & Editorial Headline Header */}
-          <div className="text-center max-w-3xl mx-auto mb-8 space-y-3 animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/50 text-[#A83E16] text-xs font-semibold shadow-xs">
-              <span className="font-marathi">|| विठ्ठल विठ्ठल जय हरी विठ्ठल ||</span>
+          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 space-y-2.5 sm:space-y-3 animate-fade-in">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/50 text-[#A83E16] text-[11px] sm:text-xs font-semibold shadow-xs">
+              <span className="font-marathi">|| विठ्ठल विठ्ठल जय हरी ||</span>
               <span className="text-[#C69A52]">•</span>
-              <span className="font-medium text-[#594333]">Pandharpur Waari Companion</span>
+              <span className="font-medium text-[#594333]">Pandharpur Waari</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-[#292723] leading-[1.15]">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-[#292723] leading-[1.15]">
               Walking Together.<br />
               <span className="text-[#C65319]">Every Warkari Matters.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#594333] font-normal max-w-xl mx-auto leading-relaxed pt-1">
-              Your digital companion throughout the Pandharpur Waari — providing voice assistance, verified route facilities, emergency support, and seva coordination.
+            <p className="text-xs sm:text-base lg:text-lg text-[#594333] font-normal max-w-xl mx-auto leading-relaxed px-2">
+              Your digital companion throughout the Pandharpur Waari — voice assistance, verified route facilities, emergency support, and seva coordination.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3.5 pt-2 max-w-md mx-auto sm:max-w-none">
               <Link
                 to="/assistant"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#C65319] hover:bg-[#A83E16] text-white font-semibold shadow-md shadow-[#C65319]/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 sm:px-6 py-3.5 rounded-xl bg-[#C65319] hover:bg-[#A83E16] text-white font-semibold text-xs sm:text-sm shadow-md shadow-[#C65319]/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 min-h-[44px]"
               >
-                <Mic className="w-4 h-4 text-white" />
+                <Mic className="w-4 h-4 text-white shrink-0" />
                 <span>Explore Pilgrim Assistant</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </Link>
 
               <a
                 href="#spirit-of-waari"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-[#F0EDE5] text-[#292723] font-medium border border-[#E2DDD3] shadow-xs transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl bg-white hover:bg-[#F0EDE5] text-[#292723] font-semibold text-xs sm:text-sm border border-[#E2DDD3] shadow-xs transition-colors min-h-[44px]"
               >
                 <span>Our Mission</span>
               </a>
             </div>
           </div>
 
-          {/* Central Photographic Centerpiece (Preserves aspect ratio, flags, and authentic procession) */}
-          <div className="relative mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-1 ring-[#E2DDD3] bg-[#E2DDD3]/50">
+          {/* Central Photographic Centerpiece */}
+          <div className="relative mx-auto rounded-xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl border-2 sm:border-4 border-white ring-1 ring-[#E2DDD3] bg-[#E2DDD3]/50">
             <img
               src="/Warkari.jpg"
               alt="Pandharpur Waari Procession with Warkaris in traditional white clothing carrying tall saffron flags"
-              className="w-full h-auto object-cover max-h-[75vh] select-none"
+              className="w-full h-auto object-cover max-h-[50vh] sm:max-h-[65vh] lg:max-h-[75vh] select-none"
+              style={{ objectPosition: 'center 20%' }}
               loading="eager"
             />
-            {/* Very subtle editorial bottom gradient to anchor the photograph seamlessly */}
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#292723]/70 via-[#292723]/20 to-transparent flex items-end p-4 sm:p-6">
-              <div className="text-white text-xs sm:text-sm font-medium flex items-center justify-between w-full">
-                <span className="font-marathi text-amber-200">
-                  वारकरी बंधू-भगिनींची पायी पंढरी वारी — एकतेचा आणि निस्सीम भक्तीचा महासोहळा.
+            {/* Editorial bottom gradient anchoring photograph */}
+            <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#292723]/80 via-[#292723]/30 to-transparent flex items-end p-3 sm:p-6">
+              <div className="text-white text-[11px] sm:text-sm font-medium flex items-center justify-between w-full">
+                <span className="font-marathi text-amber-200 line-clamp-1 sm:line-clamp-none">
+                  वारकरी बंधू-भगिनींची पायी पंढरी वारी — एकतेचा महासोहळा.
                 </span>
-                <span className="hidden sm:inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-md text-[11px] font-sans border border-white/20">
+                <span className="hidden sm:inline-block bg-white/20 backdrop-blur-sm px-2.5 py-0.5 rounded-md text-[11px] font-sans border border-white/20 shrink-0 ml-2">
                   Pandharpur Palkhi Marg
                 </span>
               </div>

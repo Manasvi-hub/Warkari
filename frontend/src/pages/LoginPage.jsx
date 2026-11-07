@@ -63,13 +63,13 @@ export function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-8 sm:py-16 space-y-6">
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-xs font-semibold">
+    <div className="max-w-md mx-auto px-3.5 sm:px-6 py-6 sm:py-14 space-y-5 sm:space-y-6">
+      <div className="text-center space-y-1.5 sm:space-y-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-[11px] sm:text-xs font-semibold">
           <HeartHandshake className="w-3.5 h-3.5 text-[#C65319]" />
           <span>वारकरी सेवा व्यासपीठ / Warkari Seva Portal</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#292723]">
+        <h1 className="text-xl sm:text-3xl font-display font-bold text-[#292723]">
           {isRegisterMode ? 'नवीन खाते नोंदणी' : 'प्रवेश करा (Login)'}
         </h1>
         <p className="text-xs sm:text-sm text-[#7A6858]">
@@ -79,7 +79,7 @@ export function LoginPage() {
         </p>
       </div>
 
-      <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 sm:p-8 shadow-xs space-y-5">
+      <div className="bg-white border border-[#E2DDD3] rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xs space-y-4 sm:space-y-5">
         {error && (
           <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />

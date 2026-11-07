@@ -65,15 +65,15 @@ export function FacilitiesPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E2DDD3] pb-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-xs font-semibold">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4 border-b border-[#E2DDD3] pb-4 sm:pb-6">
+        <div className="space-y-1.5 sm:space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-[11px] sm:text-xs font-semibold">
             <Compass className="w-3.5 h-3.5 text-[#C65319]" />
             <span>वारी मार्ग सुविधा निर्देशिका / Route Facilities</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-display font-bold text-[#292723]">
+          <h1 className="text-xl sm:text-3xl lg:text-4xl font-display font-bold text-[#292723]">
             वारी मार्ग अधिकृत सुविधा केंद्र
           </h1>
           <p className="text-xs sm:text-sm text-[#7A6858] max-w-xl">
@@ -82,7 +82,7 @@ export function FacilitiesPage() {
         </div>
 
         {/* Language switcher */}
-        <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-[#E2DDD3] self-start md:self-auto">
+        <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-[#E2DDD3] self-start md:self-auto shrink-0">
           {[
             { code: 'mr-IN', label: 'मराठी' },
             { code: 'hi-IN', label: 'हिन्दी' },
@@ -91,7 +91,7 @@ export function FacilitiesPage() {
             <button
               key={lang.code}
               onClick={() => setSelectedLanguage(lang.code)}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition-all min-h-[36px] ${
                 selectedLanguage === lang.code
                   ? 'bg-[#C65319] text-white shadow-xs'
                   : 'text-[#594333] hover:bg-[#F0EDE5]'
@@ -104,27 +104,27 @@ export function FacilitiesPage() {
       </div>
 
       {/* Category Pills & Search Bar */}
-      <div className="space-y-4">
-        <form onSubmit={handleSearchSubmit} className="flex gap-2 max-w-lg">
-          <div className="relative flex-1">
+      <div className="space-y-3 sm:space-y-4">
+        <form onSubmit={handleSearchSubmit} className="flex gap-2 w-full max-w-lg">
+          <div className="relative flex-1 min-w-0">
             <Search className="w-4 h-4 text-[#A09385] absolute left-3.5 top-3" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="नाव किंवा ठिकाण शोधा (e.g. वाखारी, पाणी, केंद्र)..."
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#292723] placeholder-[#A09385] focus:outline-hidden focus:border-[#C65319]"
+              placeholder="नाव किंवा ठिकाण शोधा (वाखारी, पाणी...)..."
+              className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs sm:text-sm text-[#292723] placeholder-[#A09385] focus:outline-hidden focus:border-[#C65319]"
             />
           </div>
           <button
             type="submit"
-            className="px-4 py-2.5 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-semibold rounded-xl transition-all shadow-xs"
+            className="px-4 py-2.5 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-semibold rounded-xl transition-all shadow-xs shrink-0 min-h-[42px]"
           >
             शोधा
           </button>
         </form>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;
             const isSelected = selectedCategory === cat.key;
@@ -132,7 +132,7 @@ export function FacilitiesPage() {
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all min-h-[38px] ${
                   isSelected
                     ? 'bg-[#C65319] text-white border-[#C65319] shadow-xs'
                     : 'bg-white text-[#594333] border-[#E2DDD3] hover:bg-[#F0EDE5]'

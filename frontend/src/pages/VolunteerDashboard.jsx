@@ -89,18 +89,18 @@ export function VolunteerDashboard() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12 space-y-6">
+    <div className="max-w-4xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-5 sm:space-y-6">
       {/* Mobile-first header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2DDD3] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#E2DDD3] pb-4 sm:pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-[11px] sm:text-xs font-semibold">
             <HeartHandshake className="w-3.5 h-3.5 text-[#C65319]" />
             <span>स्वयंसेवक सेवा डॅशबोर्ड / Volunteer Seva Desk</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#292723] mt-2">
+          <h1 className="text-xl sm:text-3xl font-display font-bold text-[#292723] mt-1.5 sm:mt-2">
             आपल्याकडे सोपवलेली कार्ये
           </h1>
-          <p className="text-xs text-[#7A6858]">
+          <p className="text-xs text-[#7A6858] mt-0.5">
             स्वागत आहे, <strong>{currentUser?.name || 'Sevak'}</strong> • सेक्टर:{' '}
             <span className="font-semibold text-[#292723]">{currentUser?.volunteer_sector || 'वाखारी'}</span>
           </p>
@@ -109,7 +109,7 @@ export function VolunteerDashboard() {
         <button
           onClick={loadAssignments}
           disabled={loading}
-          className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-[#F0EDE5] text-[#292723] text-xs font-semibold rounded-xl border border-[#E2DDD3] shadow-xs transition-colors"
+          className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-[#F0EDE5] text-[#292723] text-xs font-semibold rounded-xl border border-[#E2DDD3] shadow-xs transition-colors min-h-[40px]"
         >
           <RefreshCw className={`w-3.5 h-3.5 text-[#C65319] ${loading ? 'animate-spin' : ''}`} />
           <span>रिफ्रेश (Refresh)</span>
@@ -117,7 +117,7 @@ export function VolunteerDashboard() {
       </div>
 
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs flex items-center gap-2">
+        <div className="p-3.5 sm:p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -140,10 +140,10 @@ export function VolunteerDashboard() {
           {assignments.map((assignment) => (
             <div
               key={assignment.id}
-              className="bg-white border border-[#E2DDD3] rounded-2xl p-5 sm:p-6 shadow-xs space-y-4"
+              className="bg-white border border-[#E2DDD3] rounded-2xl p-4 sm:p-6 shadow-xs space-y-4"
             >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2DDD3] pb-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-mono text-xs font-bold text-[#292723] bg-[#FAF8F3] px-2.5 py-1 rounded border border-[#E2DDD3]">
                     तिकीट #{assignment.incident_id}
                   </span>
@@ -160,21 +160,21 @@ export function VolunteerDashboard() {
                 </div>
 
                 <span className="text-[11px] text-[#A09385]">
-                  नियुक्ती वेळ: {new Date(assignment.assigned_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(assignment.assigned_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
 
               {/* Assignment Actions */}
               {assignment.status === 'PENDING' && (
                 <div className="space-y-3">
-                  <p className="text-xs text-[#594333]">
+                  <p className="text-xs text-[#594333] leading-relaxed">
                     समन्वयकाने आपल्याकडे हे सहाय्य कार्य सोपवले आहे. आपण हे स्वीकारण्यास तयार आहात का?
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-col xs:flex-row gap-2">
                     <button
                       onClick={() => handleAccept(assignment.id)}
                       disabled={actionLoading === assignment.id}
-                      className="px-4 py-2 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+                      className="w-full xs:w-auto px-4 py-2.5 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 min-h-[42px]"
                     >
                       {actionLoading === assignment.id ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -186,7 +186,7 @@ export function VolunteerDashboard() {
 
                     <button
                       onClick={() => setRejectingId(assignment.id)}
-                      className="px-4 py-2 bg-white hover:bg-[#F0EDE5] text-rose-700 text-xs font-semibold rounded-xl border border-rose-200 transition-colors flex items-center gap-1.5"
+                      className="w-full xs:w-auto px-4 py-2.5 bg-white hover:bg-[#F0EDE5] text-rose-700 text-xs font-semibold rounded-xl border border-rose-200 transition-colors flex items-center justify-center gap-1.5 min-h-[42px]"
                     >
                       <XCircle className="w-3.5 h-3.5" />
                       <span>अस्वीकार (Reject)</span>
@@ -207,19 +207,19 @@ export function VolunteerDashboard() {
                         onChange={(e) => setRejectReason(e.target.value)}
                         placeholder="उदा. सध्या इतर रुग्णासोबत व्यस्त आहे"
                         required
-                        className="w-full px-3 py-1.5 bg-white border border-[#E2DDD3] rounded-lg text-xs text-[#292723]"
+                        className="w-full px-3 py-2 bg-white border border-[#E2DDD3] rounded-lg text-xs text-[#292723]"
                       />
                       <div className="flex gap-2">
                         <button
                           type="submit"
-                          className="px-3 py-1 bg-rose-700 hover:bg-rose-800 text-white text-[11px] font-bold rounded-lg"
+                          className="px-3.5 py-1.5 bg-rose-700 hover:bg-rose-800 text-white text-xs font-bold rounded-lg min-h-[38px]"
                         >
                           अस्वीकार निश्चित करा
                         </button>
                         <button
                           type="button"
                           onClick={() => setRejectingId(null)}
-                          className="px-3 py-1 text-[11px] text-[#7A6858] hover:text-[#292723]"
+                          className="px-3 py-1.5 text-xs text-[#7A6858] hover:text-[#292723]"
                         >
                           रद्द करा
                         </button>
@@ -231,36 +231,36 @@ export function VolunteerDashboard() {
 
               {/* Progress Stepper for Accepted Assignments */}
               {assignment.status === 'ACCEPTED' && (
-                <div className="space-y-3 pt-1">
+                <div className="space-y-2.5 pt-1">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#C65319]">
-                    मदत प्रगती अद्ययावत करा (Update Lifecycle):
+                    मदत प्रगती अद्ययावत करा:
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
                     <button
                       onClick={() => handleProgress(assignment.incident_id, 'EN_ROUTE')}
                       disabled={actionLoading === assignment.incident_id}
-                      className="py-2.5 px-3 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#C69A52]/50 text-[#594333] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                      className="py-2.5 px-3 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#C69A52]/50 text-[#594333] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors min-h-[42px]"
                     >
                       <Truck className="w-3.5 h-3.5 text-[#C65319]" />
-                      <span>मार्गावर (En Route)</span>
+                      <span>मार्गावर</span>
                     </button>
 
                     <button
                       onClick={() => handleProgress(assignment.incident_id, 'ON_SCENE')}
                       disabled={actionLoading === assignment.incident_id}
-                      className="py-2.5 px-3 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#C69A52]/50 text-[#594333] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                      className="py-2.5 px-3 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#C69A52]/50 text-[#594333] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors min-h-[42px]"
                     >
                       <MapPin className="w-3.5 h-3.5 text-[#C65319]" />
-                      <span>स्थळी पोहोचलो (On Scene)</span>
+                      <span>स्थळी पोहोचलो</span>
                     </button>
 
                     <button
                       onClick={() => handleProgress(assignment.incident_id, 'RESOLVED')}
                       disabled={actionLoading === assignment.incident_id}
-                      className="py-2.5 px-3 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-xs transition-all"
+                      className="py-2.5 px-3 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 shadow-xs transition-all min-h-[42px]"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
-                      <span>पूर्ण झाले (Resolved)</span>
+                      <span>पूर्ण झाले</span>
                     </button>
                   </div>
                 </div>

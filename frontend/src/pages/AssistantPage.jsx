@@ -452,28 +452,28 @@ export function AssistantPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12 space-y-8 text-[#292723]">
+    <div className="max-w-4xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8 text-[#292723]">
       {/* Top Header & Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2DDD3] pb-5">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#E2DDD3] pb-4 sm:pb-5">
+        <div className="min-w-0">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7A6858] hover:text-[#C65319] transition-colors mb-2"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7A6858] hover:text-[#C65319] transition-colors mb-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>मुखपृष्ठावर परत जा (Back to Home)</span>
+            <span>मुखपृष्ठावर परत जा (Home)</span>
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#292723] tracking-tight flex items-center gap-2">
+          <h1 className="text-xl sm:text-3xl font-display font-bold text-[#292723] tracking-tight flex items-center gap-2 flex-wrap">
             <span>वारकरी सहाय्यक</span>
-            <span className="text-[#C65319] text-sm font-normal">/ Voice & Text AI</span>
+            <span className="text-[#C65319] text-xs sm:text-sm font-normal">/ Voice & Text AI</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#7A6858] mt-1">
-            Multilingual Voice AI • Facility Search • Staged Seva Workflow
+          <p className="text-[11px] sm:text-sm text-[#7A6858] mt-0.5">
+            Multilingual Voice AI • Facility Search • Seva Workflow
           </p>
         </div>
 
         {/* Language Selector */}
-        <div className="flex items-center gap-2 bg-white border border-[#E2DDD3] rounded-2xl px-3.5 py-2 shadow-xs">
+        <div className="flex items-center gap-2 bg-white border border-[#E2DDD3] rounded-2xl px-3 py-1.5 sm:px-3.5 sm:py-2 shadow-xs self-start sm:self-auto shrink-0">
           <Languages className="w-4 h-4 text-[#C65319] shrink-0" />
           <select
             value={selectedLanguage}
@@ -491,30 +491,30 @@ export function AssistantPage() {
       </div>
 
       {/* Main Interactive Assistant Card */}
-      <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 sm:p-10 text-center shadow-xs relative overflow-hidden space-y-8">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#C65319]/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-white border border-[#E2DDD3] rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center shadow-xs relative overflow-hidden space-y-6 sm:space-y-8">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-80 h-72 sm:h-80 bg-[#C65319]/5 rounded-full blur-3xl pointer-events-none"></div>
 
         {/* Voice Section */}
-        <div className="relative z-10 flex flex-col items-center justify-center space-y-4">
+        <div className="relative z-10 flex flex-col items-center justify-center space-y-3 sm:space-y-4">
           <div className="relative flex items-center justify-center">
             {isRecording && (
               <>
-                <span className="absolute w-36 h-36 rounded-full bg-rose-500/20 animate-ping opacity-75"></span>
-                <span className="absolute w-44 h-44 rounded-full bg-rose-500/10 animate-pulse"></span>
+                <span className="absolute w-32 sm:w-36 h-32 sm:h-36 rounded-full bg-rose-500/20 animate-ping opacity-75"></span>
+                <span className="absolute w-40 sm:w-44 h-40 sm:h-44 rounded-full bg-rose-500/10 animate-pulse"></span>
               </>
             )}
 
             <button
               onClick={isRecording ? stopRecording : startRecording}
               disabled={processingState === 'processing' || processingState === 'converting'}
-              className={`w-24 h-24 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-md ${
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-md ${
                 isRecording
                   ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/40 scale-105'
                   : 'bg-[#C65319] hover:bg-[#A83E16] text-white shadow-[#C65319]/30 hover:scale-105'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               title={isRecording ? 'Stop recording' : 'Start speaking'}
             >
-              {isRecording ? <Square className="w-8 h-8 fill-current" /> : <Mic className="w-8 h-8" />}
+              {isRecording ? <Square className="w-7 h-7 sm:w-8 sm:h-8 fill-current" /> : <Mic className="w-7 h-7 sm:w-8 sm:h-8" />}
             </button>
           </div>
 
@@ -522,7 +522,7 @@ export function AssistantPage() {
             {isRecording ? (
               <div className="flex items-center justify-center gap-2 text-rose-700 font-semibold text-xs animate-pulse">
                 <span className="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
-                <span>रेकॉर्डिंग सुरू आहे... / Recording ({formatDuration(recordingDuration)})</span>
+                <span>रेकॉर्डिंग सुरू आहे... ({formatDuration(recordingDuration)})</span>
               </div>
             ) : processingState === 'processing' || processingState === 'converting' ? (
               <div className="flex items-center justify-center gap-2 text-[#A83E16] text-xs font-semibold">
@@ -534,8 +534,8 @@ export function AssistantPage() {
                 </span>
               </div>
             ) : (
-              <p className="text-xs text-[#7A6858]">
-                माइक बटण दाबून बोला किंवा खाली टाईप करा (Click mic or type query below)
+              <p className="text-[11px] sm:text-xs text-[#7A6858]">
+                माइक बटण दाबून बोला किंवा खाली टाईप करा
               </p>
             )}
           </div>
@@ -549,12 +549,12 @@ export function AssistantPage() {
             onChange={(e) => setTextInput(e.target.value)}
             placeholder="उदा. पिण्याचे पाणी कुठे मिळेल? / Need drinking water..."
             disabled={isRecording || processingState === 'processing'}
-            className="flex-1 bg-[#FAF8F3] border border-[#E2DDD3] rounded-2xl px-4 py-3 text-xs text-[#292723] placeholder-[#A09385] focus:outline-hidden focus:border-[#C65319] focus:ring-1 focus:ring-[#C65319] transition-colors"
+            className="flex-1 min-w-0 bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl sm:rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-[#292723] placeholder-[#A09385] focus:outline-hidden focus:border-[#C65319] focus:ring-1 focus:ring-[#C65319] transition-colors"
           />
           <button
             type="submit"
             disabled={!textInput.trim() || processingState === 'processing'}
-            className="px-5 py-3 rounded-2xl bg-[#C65319] hover:bg-[#A83E16] disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-sm"
+            className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-[#C65319] hover:bg-[#A83E16] disabled:opacity-40 text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 transition-all shadow-sm shrink-0 min-h-[42px]"
           >
             <span>पाठवा</span>
             <Send className="w-3.5 h-3.5" />
@@ -563,27 +563,27 @@ export function AssistantPage() {
 
         {/* Error Display */}
         {errorMessage && (
-          <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-left flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-            <div className="text-xs text-rose-900 space-y-1">
+          <div className="p-3.5 sm:p-4 bg-rose-50 border border-rose-200 rounded-2xl text-left flex items-start gap-2.5 sm:gap-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 shrink-0 mt-0.5" />
+            <div className="text-xs text-rose-900 space-y-1 min-w-0">
               <p className="font-semibold text-rose-950">Processing Error</p>
-              <p>{errorMessage}</p>
+              <p className="break-words">{errorMessage}</p>
             </div>
           </div>
         )}
 
         {/* Results Panel */}
         {(userQuery || responseText) && (
-          <div className="space-y-6 text-left border-t border-[#E2DDD3] pt-6">
+          <div className="space-y-4 sm:space-y-6 text-left border-t border-[#E2DDD3] pt-5 sm:pt-6">
             {/* User Input & Recognized Intent Badge */}
-            <div className="bg-[#FAF8F3] border border-[#E2DDD3] rounded-2xl p-4 space-y-2">
-              <div className="flex items-center justify-between text-xs text-[#7A6858]">
-                <span className="font-semibold text-[#A83E16] uppercase tracking-wider flex items-center gap-1.5">
+            <div className="bg-[#FAF8F3] border border-[#E2DDD3] rounded-2xl p-3.5 sm:p-4 space-y-2">
+              <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs text-[#7A6858]">
+                <span className="font-semibold text-[#A83E16] uppercase tracking-wider flex items-center gap-1.5 text-[11px] sm:text-xs">
                   <Compass className="w-3.5 h-3.5" />
                   <span>तुमचा प्रश्न / Pilgrim Request</span>
                 </span>
                 {recognizedIntent && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F0EDE5] text-[#594333] border border-[#E2DDD3]">
                       Intent: {recognizedIntent}
                     </span>
@@ -595,55 +595,55 @@ export function AssistantPage() {
                   </div>
                 )}
               </div>
-              <p className="text-sm font-semibold text-[#292723]">
+              <p className="text-xs sm:text-sm font-semibold text-[#292723] break-words">
                 {userQuery}
               </p>
             </div>
 
             {/* Clarification prompt badge if needed */}
             {clarificationRequired && (
-              <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 flex items-center gap-2">
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 shrink-0 text-amber-600" />
                 <span>अस्पष्ट प्रश्न: कृपया स्पष्ट माहितीसाठी खालील पर्याय निवडा किंवा अधिक माहिती द्या.</span>
               </div>
             )}
 
             {/* AI Assistant Spoken / Written Response */}
-            <div className="bg-[#FAF8F3] border border-[#C69A52]/40 rounded-2xl p-5 space-y-3">
+            <div className="bg-[#FAF8F3] border border-[#C69A52]/40 rounded-2xl p-4 sm:p-5 space-y-3">
               <div className="flex items-center justify-between text-xs text-[#7A6858]">
-                <span className="font-semibold text-[#C65319] uppercase tracking-wider flex items-center gap-1.5">
+                <span className="font-semibold text-[#C65319] uppercase tracking-wider flex items-center gap-1.5 text-[11px] sm:text-xs">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>वारकरी सहाय्यक / Assistant Guidance</span>
                 </span>
               </div>
-              <p className="text-sm sm:text-base text-[#292723] font-marathi leading-relaxed">
+              <p className="text-xs sm:text-base text-[#292723] font-marathi leading-relaxed break-words">
                 {responseText}
               </p>
 
               {/* Audio Controls */}
               {audioUrl && (
-                <div className="flex items-center justify-between pt-3 border-t border-[#E2DDD3]">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#E2DDD3]">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <button
                       onClick={handleTogglePlayPause}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-semibold shadow-xs transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-semibold shadow-xs transition-colors min-h-[38px]"
                       title={isPlaying ? 'Pause Audio' : 'Resume Audio'}
                     >
                       {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                      <span>{isPlaying ? 'Pause Voice' : 'Resume Voice'}</span>
+                      <span>{isPlaying ? 'Pause' : 'Resume'}</span>
                     </button>
                     <button
                       onClick={handleReplay}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F0EDE5] text-[#292723] border border-[#E2DDD3] text-xs font-semibold transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-[#F0EDE5] text-[#292723] border border-[#E2DDD3] text-xs font-semibold transition-colors min-h-[38px]"
                       title="Replay from start"
                     >
                       <RotateCcw className="w-3.5 h-3.5 text-[#594333]" />
                       <span>Replay</span>
                     </button>
                     {isPlaying && (
-                      <span className="flex items-center gap-1.5 text-xs text-[#C65319] font-medium ml-2">
-                        <Volume2 className="w-4 h-4 animate-pulse" />
-                        <span>Playing audio...</span>
+                      <span className="flex items-center gap-1 text-[11px] text-[#C65319] font-medium ml-1">
+                        <Volume2 className="w-3.5 h-3.5 animate-pulse" />
+                        <span>Playing...</span>
                       </span>
                     )}
                   </div>
@@ -831,8 +831,8 @@ export function AssistantPage() {
                 
                 {/* Ephemeral Tracking Credentials Banner */}
                 {incidentInfo.raw_tracking_token && (
-                  <div className="p-4 bg-[#FAF8F3] border border-[#C69A52]/40 rounded-2xl space-y-2">
-                    <div className="flex items-center justify-between">
+                  <div className="p-3.5 sm:p-4 bg-[#FAF8F3] border border-[#C69A52]/40 rounded-2xl space-y-2">
+                    <div className="flex flex-wrap items-center justify-between gap-1">
                       <span className="text-xs font-bold text-[#A83E16]">
                         सार्वजनिक संदर्भ: {incidentInfo.public_reference || 'WKR-PENDING'}
                       </span>
@@ -840,10 +840,10 @@ export function AssistantPage() {
                         खाजगी ट्रॅकिंग टोकन
                       </span>
                     </div>
-                    <div className="p-2.5 bg-white rounded-xl border border-[#E2DDD3] font-mono text-xs text-[#292723] break-all select-all font-semibold">
+                    <div className="p-2.5 bg-white rounded-xl border border-[#E2DDD3] font-mono text-[11px] sm:text-xs text-[#292723] break-all select-all font-semibold max-w-full overflow-x-auto">
                       {incidentInfo.raw_tracking_token}
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-[#7A6858]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-[#7A6858]">
                       <span>हा टोकन कॉपी करून ठेवा. आपण /track पृष्ठावर स्थिती पाहू शकता.</span>
                       <button
                         type="button"
@@ -851,7 +851,7 @@ export function AssistantPage() {
                           navigator.clipboard.writeText(incidentInfo.raw_tracking_token);
                           alert('Tracking token copied to clipboard! Keep it safe to check status.');
                         }}
-                        className="px-3 py-1 bg-[#C65319] hover:bg-[#A83E16] text-white rounded-lg text-[11px] font-semibold shrink-0"
+                        className="px-3 py-1.5 bg-[#C65319] hover:bg-[#A83E16] text-white rounded-lg text-xs font-semibold shrink-0 self-start sm:self-auto min-h-[38px] flex items-center justify-center"
                       >
                         Copy Token
                       </button>

@@ -118,18 +118,18 @@ export function CoordinatorDashboard() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6">
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-5 sm:space-y-6">
       {/* Editorial Dashboard Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2DDD3] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#E2DDD3] pb-4 sm:pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF8F3] border border-[#C69A52]/40 text-[#A83E16] text-[11px] sm:text-xs font-semibold">
             <Shield className="w-3.5 h-3.5 text-[#C65319]" />
-            <span>वारी नियंत्रण कक्ष / Coordinator Operations Hub</span>
+            <span>वारी नियंत्रण कक्ष / Coordinator Hub</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#292723] mt-2">
+          <h1 className="text-xl sm:text-3xl font-display font-bold text-[#292723] mt-1.5 sm:mt-2">
             घटना व्यवस्थापन आणि स्वयंसेवक नियुक्ती
           </h1>
-          <p className="text-xs text-[#7A6858]">
+          <p className="text-xs text-[#7A6858] mt-0.5">
             समन्वयक: <strong>{currentUser?.name || 'Officer'}</strong> • एकूण नोंदी: <strong>{total}</strong>
           </p>
         </div>
@@ -137,7 +137,7 @@ export function CoordinatorDashboard() {
         <button
           onClick={loadIncidents}
           disabled={loading}
-          className="self-start sm:self-auto inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-[#F0EDE5] text-[#292723] text-xs font-semibold rounded-xl border border-[#E2DDD3] shadow-xs transition-colors"
+          className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-[#F0EDE5] text-[#292723] text-xs font-semibold rounded-xl border border-[#E2DDD3] shadow-xs transition-colors min-h-[40px]"
         >
           <RefreshCw className={`w-3.5 h-3.5 text-[#C65319] ${loading ? 'animate-spin' : ''}`} />
           <span>रिफ्रेश (Refresh)</span>
@@ -145,54 +145,58 @@ export function CoordinatorDashboard() {
       </div>
 
       {successBanner && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs flex items-center gap-2">
+        <div className="p-3.5 sm:p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>{successBanner}</span>
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs flex items-center gap-2">
+        <div className="p-3.5 sm:p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Filter Row */}
-      <div className="flex flex-wrap items-center gap-3 bg-white p-4 rounded-2xl border border-[#E2DDD3] shadow-xs">
-        <Filter className="w-4 h-4 text-[#C65319]" />
-        <span className="text-xs font-semibold text-[#292723]">गाळणी (Filters):</span>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-[#E2DDD3] shadow-xs">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#292723]">
+          <Filter className="w-4 h-4 text-[#C65319]" />
+          <span>गाळणी (Filters):</span>
+        </div>
 
-        <select
-          value={categoryFilter}
-          onChange={(e) => {
-            setCategoryFilter(e.target.value);
-            setPage(1);
-          }}
-          className="text-xs bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl px-3 py-1.5 text-[#292723] focus:outline-hidden focus:border-[#C65319]"
-        >
-          <option value="">सर्व श्रेणी (All Categories)</option>
-          <option value="medical_emergency">Medical Emergency</option>
-          <option value="water_shortage">Water Shortage</option>
-          <option value="lost_person">Lost Person</option>
-          <option value="general_assistance">General Assistance</option>
-        </select>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
+          <select
+            value={categoryFilter}
+            onChange={(e) => {
+              setCategoryFilter(e.target.value);
+              setPage(1);
+            }}
+            className="text-xs bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl px-3 py-2 text-[#292723] focus:outline-hidden focus:border-[#C65319] min-h-[38px]"
+          >
+            <option value="">सर्व श्रेणी (All Categories)</option>
+            <option value="medical_emergency">Medical Emergency</option>
+            <option value="water_shortage">Water Shortage</option>
+            <option value="lost_person">Lost Person</option>
+            <option value="general_assistance">General Assistance</option>
+          </select>
 
-        <select
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            setPage(1);
-          }}
-          className="text-xs bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl px-3 py-1.5 text-[#292723] focus:outline-hidden focus:border-[#C65319]"
-        >
-          <option value="">सर्व स्थिती (All Status)</option>
-          <option value="OPEN">OPEN (प्रलंबित)</option>
-          <option value="ASSIGNED">ASSIGNED (नियुक्त)</option>
-          <option value="EN_ROUTE">EN_ROUTE (मार्गावर)</option>
-          <option value="ON_SCENE">ON_SCENE (स्थळी)</option>
-          <option value="RESOLVED">RESOLVED (पूर्ण)</option>
-        </select>
+          <select
+            value={statusFilter}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              setPage(1);
+            }}
+            className="text-xs bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl px-3 py-2 text-[#292723] focus:outline-hidden focus:border-[#C65319] min-h-[38px]"
+          >
+            <option value="">सर्व स्थिती (All Status)</option>
+            <option value="OPEN">OPEN (प्रलंबित)</option>
+            <option value="ASSIGNED">ASSIGNED (नियुक्त)</option>
+            <option value="EN_ROUTE">EN_ROUTE (मार्गावर)</option>
+            <option value="ON_SCENE">ON_SCENE (स्थळी)</option>
+            <option value="RESOLVED">RESOLVED (पूर्ण)</option>
+          </select>
+        </div>
       </div>
 
       {/* High-Contrast Professional Operational Incident Table */}
@@ -314,16 +318,16 @@ export function CoordinatorDashboard() {
 
       {/* Assignment Modal */}
       {assigningIncident && (
-        <div className="fixed inset-0 bg-[#292723]/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white border border-[#E2DDD3] rounded-3xl max-w-md w-full p-6 shadow-xl space-y-4">
+        <div className="fixed inset-0 bg-[#292723]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 overflow-y-auto">
+          <div className="bg-white border border-[#E2DDD3] rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-xl space-y-4 my-auto max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-[#292723]">
               स्वयंसेवक नियुक्ती — तिकीट #{assigningIncident.id}
             </h3>
-            <p className="text-xs text-[#594333]">
+            <p className="text-xs text-[#594333] leading-relaxed break-words">
               {assigningIncident.description}
             </p>
 
-            <form onSubmit={handleAssignSubmit} className="space-y-4 pt-2">
+            <form onSubmit={handleAssignSubmit} className="space-y-3.5 pt-1">
               <div>
                 <label className="block text-xs font-semibold text-[#292723] mb-1">
                   पात्र स्वयंसेवक निवडा (Eligible Approved Sevak):
@@ -332,7 +336,7 @@ export function CoordinatorDashboard() {
                   value={selectedVolId}
                   onChange={(e) => setSelectedVolId(e.target.value)}
                   required
-                  className="w-full px-3 py-2 bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl text-xs text-[#292723]"
+                  className="w-full px-3 py-2.5 bg-[#FAF8F3] border border-[#E2DDD3] rounded-xl text-xs text-[#292723] min-h-[40px]"
                 >
                   {volunteers.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -359,14 +363,14 @@ export function CoordinatorDashboard() {
                 <button
                   type="button"
                   onClick={() => setAssigningIncident(null)}
-                  className="px-4 py-2 text-xs text-[#7A6858] hover:text-[#292723]"
+                  className="px-4 py-2 text-xs text-[#7A6858] hover:text-[#292723] min-h-[40px]"
                 >
                   रद्द करा
                 </button>
                 <button
                   type="submit"
                   disabled={submittingAssign || !selectedVolId}
-                  className="px-4 py-2 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50"
+                  className="px-4 py-2.5 bg-[#C65319] hover:bg-[#A83E16] text-white text-xs font-bold rounded-xl shadow-xs disabled:opacity-50 min-h-[40px]"
                 >
                   {submittingAssign ? 'नियुक्त करत आहे...' : 'नियुक्ती निश्चित करा'}
                 </button>
@@ -378,8 +382,8 @@ export function CoordinatorDashboard() {
 
       {/* History Modal */}
       {historyIncident && (
-        <div className="fixed inset-0 bg-[#292723]/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white border border-[#E2DDD3] rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4">
+        <div className="fixed inset-0 bg-[#292723]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 overflow-y-auto">
+          <div className="bg-white border border-[#E2DDD3] rounded-2xl sm:rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-xl space-y-4 my-auto max-h-[90vh] flex flex-col">
             <h3 className="text-base font-bold text-[#292723]">
               ऑडिट इतिहास — तिकीट #{historyIncident.id}
             </h3>
@@ -391,7 +395,7 @@ export function CoordinatorDashboard() {
             ) : historyList.length === 0 ? (
               <p className="text-xs text-[#7A6858] py-4">या घटनेसाठी अद्याप कोणतीही नियुक्ती नोंद नाही.</p>
             ) : (
-              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
                 {historyList.map((h) => (
                   <div key={h.id} className="p-3 bg-[#FAF8F3] rounded-xl border border-[#E2DDD3] text-xs space-y-1">
                     <div className="flex justify-between font-bold">
@@ -400,17 +404,17 @@ export function CoordinatorDashboard() {
                     </div>
                     <p className="text-[#7A6858] text-[11px]">वेळ: {new Date(h.assigned_at).toLocaleString()}</p>
                     {h.rejection_reason && (
-                      <p className="text-rose-700 font-semibold">अस्वीकार कारण: {h.rejection_reason}</p>
+                      <p className="text-rose-700 font-semibold break-words">अस्वीकार कारण: {h.rejection_reason}</p>
                     )}
                   </div>
                 ))}
               </div>
             )}
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 border-t border-[#E2DDD3]">
               <button
                 onClick={() => setHistoryIncident(null)}
-                className="px-4 py-2 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#E2DDD3] text-[#292723] text-xs font-semibold rounded-xl"
+                className="px-4 py-2 bg-[#FAF8F3] hover:bg-[#F0EDE5] border border-[#E2DDD3] text-[#292723] text-xs font-semibold rounded-xl min-h-[40px]"
               >
                 बंद करा (Close)
               </button>

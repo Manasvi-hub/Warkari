@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Warkari Image-Led Color Palette extracted from Warkari.jpg */
+    --saffron-orange: #C65319;
+    --deep-saffron: #A83E16;
+    --warm-white: #FAF8F3;
+    --off-white: #F0EDE5;
+    --charcoal: #292723;
+    --earth-brown: #594333;
+    --muted-gold: #C69A52;
+    --border-warm: #E2DDD3;
+
+    /* Theme mappings */
+    --bg-primary: #FAF8F3;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #F0EDE5;
+    --text-primary: #292723;
+    --text-secondary: #594333;
+    --text-muted: #7A6858;
+  }
+
+  body {
+    background-color: var(--warm-white);
+    color: var(--charcoal);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Typography accents */
+  .font-marathi {
+    font-family: 'Gotu', 'Yatra One', 'Rozha One', 'Noto Sans Devanagari', sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Cinzel', 'Plus Jakarta Sans', serif;
+  }
+}
+
+/* Restrained entrance animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle scrollbars with authentic warm palette */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F3;
+}
+::-webkit-scrollbar-thumb {
+  background: #E2DDD3;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C69A52;
+}

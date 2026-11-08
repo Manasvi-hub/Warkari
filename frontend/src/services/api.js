@@ -3,16 +3,53 @@ const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   'http://localhost:8000';
 
+const DEFAULT_FETCH_TIMEOUT_MS = 25000;
+
+/**
+ * Fetch wrapper that enforces a client-side timeout to avoid infinite UI hangs.
+ */
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = DEFAULT_FETCH_TIMEOUT_MS, signal: userSignal, ...rest } = options;
+  const controller = new AbortController();
+
+  // If user passed their own signal, listen to it
+  if (userSignal) {
+    userSignal.addEventListener('abort', () => controller.abort(userSignal.reason));
+  }
+
+  const timeoutId = setTimeout(() => {
+    controller.abort(new Error('Request timed out. Please check your network and try again.'));
+  }, timeout);
+
+  try {
+    const response = await fetch(resource, {
+      ...rest,
+      signal: controller.signal,
+    });
+    return response;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 export async function fetchHealth() {
-  const response = await fetch(`${API_BASE_URL}/health`);
+  const response = await fetchWithTimeout(`${API_BASE_URL}/health`, { timeout: 8000 });
   if (!response.ok) {
     throw new Error(`Health check failed with status: ${response.status}`);
   }
   return response.json();
 }
 
+export async function fetchReadiness() {
+  const response = await fetchWithTimeout(`${API_BASE_URL}/ready`, { timeout: 8000 });
+  if (!response.ok) {
+    throw new Error(`Readiness check failed with status: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function fetchSystemInfo() {
-  const response = await fetch(`${API_BASE_URL}/api/system/info`);
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/system/info`, { timeout: 10000 });
   if (!response.ok) {
     throw new Error(`System info request failed with status: ${response.status}`);
   }
@@ -27,9 +64,10 @@ export async function transcribeAudio(audioBlob, language = 'mr-IN') {
   formData.append('audio', audioBlob, 'recording.wav');
   formData.append('language', language);
 
-  const response = await fetch(`${API_BASE_URL}/api/assistant/transcribe`, {
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/assistant/transcribe`, {
     method: 'POST',
     body: formData,
+    timeout: 20000,
   });
 
   const data = await response.json();
@@ -43,13 +81,14 @@ export async function transcribeAudio(audioBlob, language = 'mr-IN') {
  * Synthesize speech from text using Gnani Timbre v2.5 TTS.
  */
 export async function synthesizeSpeech(text, language = 'mr-IN', signal = null) {
-  const response = await fetch(`${API_BASE_URL}/api/assistant/speak`, {
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/assistant/speak`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ text, language }),
     signal: signal || undefined,
+    timeout: 15000,
   });
 
   if (!response.ok) {
@@ -67,10 +106,11 @@ export async function processVoicePipeline(audioBlob, language = 'mr-IN', signal
   formData.append('audio', audioBlob, 'recording.wav');
   formData.append('language', language);
 
-  const response = await fetch(`${API_BASE_URL}/api/assistant/voice`, {
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/assistant/voice`, {
     method: 'POST',
     body: formData,
     signal: signal || undefined,
+    timeout: 30000,
   });
 
   const data = await response.json();
@@ -99,13 +139,14 @@ export async function sendChatMessage(message, language = 'mr-IN', options = {},
     missing_person_details: options.missing_person_details || null,
   };
 
-  const response = await fetch(`${API_BASE_URL}/api/intelligence/chat`, {
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/intelligence/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
     signal: signal || undefined,
+    timeout: 15000,
   });
 
   const data = await response.json();
@@ -120,7 +161,7 @@ export async function sendChatMessage(message, language = 'mr-IN', options = {},
  */
 export async function searchFacilities(params = {}) {
   const query = new URLSearchParams(params).toString();
-  const response = await fetch(`${API_BASE_URL}/api/intelligence/facilities?${query}`);
+  const response = await fetchWithTimeout(`${API_BASE_URL}/api/intelligence/facilities?${query}`, { timeout: 12000 });
   if (!response.ok) {
     throw new Error('Failed to fetch facilities.');
   }

@@ -23,14 +23,26 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifecycle manager handling application startup and graceful shutdown."""
-    # In production, tables are pre-migrated. Attempt schema validation safely
-    try:
-        init_db()
-    except Exception as exc:
-        logger.error("Database initialization check failed during startup: %s", exc)
+    """Lifecycle manager handling application startup and graceful shutdown.
+    
+    Guarantees non-blocking startup:
+    - In SQLite development, checks and initializes missing tables.
+    - In PostgreSQL production, schema is pre-migrated; startup proceeds immediately
+      without blocking HTTP traffic or holding the Uvicorn event loop.
+    """
+    db_is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+    if db_is_sqlite:
+        try:
+            init_db()
+            logger.info("SQLite local database verified.")
+        except Exception as exc:
+            logger.warning("Local SQLite init warning: %s", exc)
+    else:
+        logger.info("PostgreSQL production mode: Tables are pre-migrated. Startup proceeds immediately.")
+    
     yield
     # Shutdown: Clean up resources if necessary
+    logger.info("Application shutdown completed.")
 
 
 app = FastAPI(

@@ -80,16 +80,16 @@ class VoiceService:
         language: str = "mr-IN",
         voice: Optional[str] = None,
         speed: float = 1.0,
-        timeout: int = 30
+        timeout: int = 10
     ) -> Tuple[bytes, str]:
-        """Synthesizes text into speech using Gnani Timbre v2.5.
+        """Synthesizes text into speech using Gnani Timbre v2.5 with a bounded timeout.
 
         Args:
             text: Text to synthesize.
             language: Language code ('mr-IN', 'hi-IN', 'en-IN').
             voice: Voice name in timbre-v2.5 catalog (defaults to 'Nalini').
             speed: Playback speed multiplier (0.85 to 1.15).
-            timeout: Network timeout in seconds.
+            timeout: Network timeout in seconds (default: 10s).
 
         Returns:
             Tuple of (raw_audio_bytes, content_type)

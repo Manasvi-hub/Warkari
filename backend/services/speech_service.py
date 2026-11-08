@@ -137,16 +137,16 @@ class SpeechService:
         language: str = "mr-IN",
         content_type: Optional[str] = "audio/wav",
         filename: Optional[str] = "recording.wav",
-        timeout: int = 30
+        timeout: int = 12
     ) -> Dict[str, Any]:
-        """Sends audio to Gnani Prisma v2.5 STT endpoint.
+        """Sends audio to Gnani Prisma v2.5 STT endpoint with a bounded timeout.
 
         Args:
             audio_bytes: Raw binary bytes of the recorded speech.
             language: Target language code ('mr-IN', 'hi-IN', 'en-IN').
             content_type: MIME type of the uploaded audio.
             filename: Original or synthesized filename.
-            timeout: Network timeout in seconds.
+            timeout: Network timeout in seconds (default: 12s).
 
         Returns:
             Dict containing success status, recognized transcript, and metadata.

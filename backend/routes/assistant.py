@@ -6,6 +6,7 @@ Handles:
 - POST /api/assistant/voice      : End-to-end voice pipeline (STT -> Test Response -> TTS)
 """
 
+import asyncio
 import base64
 import logging
 from typing import Optional
@@ -61,7 +62,9 @@ async def transcribe_audio_endpoint(
 
     try:
         audio_bytes = await audio.read()
-        result = speech_service.transcribe_audio(
+        # Offload synchronous network I/O to background threadpool to avoid freezing event loop
+        result = await asyncio.to_thread(
+            speech_service.transcribe_audio,
             audio_bytes=audio_bytes,
             language=language,
             content_type=audio.content_type,
@@ -97,7 +100,9 @@ async def speak_text_endpoint(request: SpeakRequest):
         )
 
     try:
-        audio_bytes, content_type = voice_service.synthesize_speech(
+        # Offload synchronous TTS synthesis network call to threadpool
+        audio_bytes, content_type = await asyncio.to_thread(
+            voice_service.synthesize_speech,
             text=request.text,
             language=request.language,
             voice=request.voice,
@@ -141,8 +146,9 @@ async def voice_interaction_endpoint(
 
     try:
         audio_bytes = await audio.read()
-        # 1. Transcribe through Prisma STT
-        stt_result = speech_service.transcribe_audio(
+        # 1. Transcribe through Prisma STT (offloaded to threadpool)
+        stt_result = await asyncio.to_thread(
+            speech_service.transcribe_audio,
             audio_bytes=audio_bytes,
             language=language,
             content_type=audio.content_type,
@@ -170,7 +176,7 @@ async def voice_interaction_endpoint(
                 incident=None
             )
 
-        # 2. Process via Intelligence & Contextual Response Engine
+        # 2. Process via Intelligence & Contextual Response Engine (uses current db session)
         intel = assistant_service.process_chat(
             db=db,
             message=transcript,
@@ -181,8 +187,9 @@ async def voice_interaction_endpoint(
         display_text = intel.get("response_text", "")
         speech_text = intel.get("speech_text") or display_text
 
-        # 3. Synthesize normalized speech_text through Timbre TTS
-        tts_audio_bytes, tts_mime = voice_service.synthesize_speech(
+        # 3. Synthesize normalized speech_text through Timbre TTS (offloaded to threadpool)
+        tts_audio_bytes, tts_mime = await asyncio.to_thread(
+            voice_service.synthesize_speech,
             text=speech_text,
             language=resolved_lang
         )
@@ -216,4 +223,5 @@ async def voice_interaction_endpoint(
     except Exception as exc:
         logger.exception("Unexpected error in /voice pipeline")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Voice pipeline execution failed.")
+
 

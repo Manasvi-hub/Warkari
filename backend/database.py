@@ -1,5 +1,5 @@
 from typing import Generator
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from backend.config import get_settings
 
@@ -15,9 +15,11 @@ if db_url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
     pool_kwargs = {}
 else:
-    # Explicit 5-second socket timeout and resilient connection pooling for PostgreSQL
+    # Explicit 5-second socket timeout and conservative connection pooling for Supabase/Render
     connect_args = {"connect_timeout": 5}
     pool_kwargs = {
+        "pool_size": 3,
+        "max_overflow": 2,
         "pool_pre_ping": True,
         "pool_recycle": 300,
         "pool_timeout": 10
@@ -36,17 +38,40 @@ Base = declarative_base()
 
 
 def get_db() -> Generator[Session, None, None]:
-    """Dependency for obtaining a SQLAlchemy session per request."""
+    """Dependency for obtaining a SQLAlchemy session per request.
+    
+    Guarantees clean transaction rollback upon exceptions and session closure.
+    """
     db = SessionLocal()
     try:
         yield db
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
 
 
+def check_db_health(timeout_seconds: float = 3.0) -> bool:
+    """Verifies active database reachability with a fast bounded query without throwing."""
+    try:
+        with engine.connect() as conn:
+            # Set statement timeout for PostgreSQL to prevent hanging queries
+            if not db_url.startswith("sqlite"):
+                conn.execute(text(f"SET statement_timeout = {int(timeout_seconds * 1000)}"))
+            conn.execute(text("SELECT 1"))
+        return True
+    except Exception:
+        return False
+
+
 def init_db() -> None:
-    """Create all configured tables if they do not exist."""
-    # Import models here to ensure metadata is populated before creation
+    """Create all configured tables if they do not exist.
+    
+    In development (SQLite), this creates tables automatically.
+    In production (PostgreSQL), tables are pre-migrated.
+    """
     import backend.models  # noqa: F401
     Base.metadata.create_all(bind=engine)
+
 

@@ -30,6 +30,25 @@ class Settings(BaseSettings):
 
     # CORS
     FRONTEND_URL: str = "http://localhost:5173"
+    ALLOWED_ORIGINS: str = ""
+
+    @property
+    def cors_origins(self) -> list[str]:
+        origins = [
+            self.FRONTEND_URL.rstrip("/"),
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:5174",
+            "http://127.0.0.1:5174",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
+        ]
+        if self.ALLOWED_ORIGINS:
+            for extra in self.ALLOWED_ORIGINS.split(","):
+                clean = extra.strip().rstrip("/")
+                if clean and clean not in origins:
+                    origins.append(clean)
+        return list(dict.fromkeys(origins))
 
     model_config = SettingsConfigDict(
         # Check both backend/.env and root .env dynamically regardless of execution working directory

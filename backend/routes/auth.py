@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
+from backend.config import get_settings
 from backend.models import User, VolunteerProfile
 from backend.schemas import (
     UserRegisterRequest,
@@ -21,6 +22,8 @@ from backend.services.audit_service import audit_service
 from backend.dependencies.auth import get_current_user, require_admin
 
 router = APIRouter(prefix="/api/v1/auth", tags=["Authentication & Accounts"])
+settings = get_settings()
+
 
 
 @router.post(
@@ -78,12 +81,13 @@ async def login(
     )
 
     # Set secure HttpOnly cookie for refresh token
+    is_prod = settings.ENVIRONMENT == "production"
     response.set_cookie(
         key="refresh_token",
         value=raw_refresh,
         httponly=True,
-        secure=False,  # Set to True in production with HTTPS
-        samesite="lax",
+        secure=is_prod,  # True in production (HTTPS)
+        samesite="none" if is_prod else "lax",  # "none" allows cross-domain cookies between Vercel and Render
         max_age=7 * 24 * 3600,
         path="/api/v1/auth"
     )
@@ -132,12 +136,13 @@ async def refresh_token_endpoint(
         user_agent=user_agent
     )
 
+    is_prod = settings.ENVIRONMENT == "production"
     response.set_cookie(
         key="refresh_token",
         value=new_raw_refresh,
         httponly=True,
-        secure=False,
-        samesite="lax",
+        secure=is_prod,
+        samesite="none" if is_prod else "lax",
         max_age=7 * 24 * 3600,
         path="/api/v1/auth"
     )
@@ -169,8 +174,21 @@ async def logout(
 
     auth_service.logout_session(db, raw_token)
 
-    response.delete_cookie(key="refresh_token", path="/api/v1/auth")
-    response.delete_cookie(key="access_token", path="/")
+    is_prod = settings.ENVIRONMENT == "production"
+    response.delete_cookie(
+        key="refresh_token",
+        path="/api/v1/auth",
+        secure=is_prod,
+        httponly=True,
+        samesite="none" if is_prod else "lax"
+    )
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        secure=is_prod,
+        httponly=True,
+        samesite="none" if is_prod else "lax"
+    )
     return {"message": "Logged out successfully."}
 
 

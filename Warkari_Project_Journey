@@ -1,0 +1,643 @@
+# WARKARI
+## Complete Project Development, Implementation and Deployment Report
+
+**Project:** Warkari – Voice-First Pilgrim Assistance and Volunteer Coordination Platform  
+**Technology Stack:** React, Vite, Tailwind CSS, FastAPI, Python, PostgreSQL, Supabase, Render, Vercel and Gnani AI APIs  
+**Repository:** https://github.com/Manasvi-hub/Warkari  
+**Frontend:** https://warkarii.vercel.app  
+**Backend:** https://warkari-backend.onrender.com  
+**Deployment Status:** Successfully deployed
+
+---
+
+# 1. Introduction
+
+Warkari is a multilingual, voice-first pilgrim assistance and volunteer coordination platform conceptualised to support pilgrims participating in the Pandharpur Wari.
+
+The project was developed with the objective of making essential information more accessible to pilgrims, particularly in situations where typing, navigating conventional applications, or communicating through digital interfaces may be difficult.
+
+The platform combines voice interaction, multilingual assistance, location-related information, facility discovery, and an incident and volunteer coordination framework.
+
+Rather than approaching Warkari as a conventional information website, the development strategy focused on creating an intelligent assistance system supported by a structured backend and a user-friendly interface.
+
+The project was divided into six major development phases. Each phase introduced a new layer of functionality, followed by testing, debugging, and refinement.
+
+# 2. Initial Planning and Project Roadmap
+
+Before beginning implementation, the project was divided into phases to establish a systematic development process.
+
+The initial roadmap focused on building the intelligence layer first, integrating voice capabilities, developing the backend infrastructure, designing the frontend, and eventually deploying the complete application.
+
+The development roadmap was broadly organised as follows:
+
+| Phase | Development focus |
+|---|---|
+| Phase 1 | Project conceptualisation, architecture and initial planning |
+| Phase 2 | Gnani API integration and voice infrastructure |
+| Phase 3 | Warkari Intelligence Layer and conversational refinement |
+| Phase 4 | Backend architecture, database and coordination functionality |
+| Phase 5 | Frontend design and application integration |
+| Phase 6 | Production database migration, deployment and final verification |
+
+The phased approach helped separate the intelligence, application, infrastructure, and deployment challenges instead of attempting to build everything simultaneously.
+
+# 3. Phase 1 – Conceptualisation and System Planning
+
+The first phase involved defining the problem Warkari intended to address and translating the concept into a technical architecture.
+
+The central idea was to develop an accessible assistance platform that could communicate with pilgrims through voice rather than relying exclusively on text-based interaction.
+
+The initial planning considered the following capabilities:
+
+- Voice-based interaction with the platform.
+- Multilingual communication.
+- Information about facilities and essential services.
+- Assistance with common pilgrim queries.
+- A structured mechanism for reporting incidents.
+- Volunteer coordination and incident status tracking.
+- A frontend accessible through desktop and mobile browsers.
+
+The architecture was divided into three principal layers:
+
+**1. Frontend layer:** The interface through which pilgrims and authorised users interact with the system.
+
+**2. Intelligence and service layer:** The conversational intelligence, speech processing, intent handling and response generation mechanisms.
+
+**3. Backend and data layer:** APIs, authentication, database operations, incident management and volunteer coordination.
+
+This separation established the foundation for the subsequent development phases.
+
+# 4. Phase 2 – Gnani API Integration and Voice Infrastructure
+
+The second phase focused on introducing voice capabilities.
+
+One of the first significant challenges was obtaining and configuring the API credentials required to integrate Gnani's speech services.
+
+The integration required understanding the API configuration, authentication requirements, request structure, response formats and how speech services would communicate with the backend.
+
+The voice infrastructure was designed around two important capabilities:
+
+- **Speech-to-Text (STT):** Converting a user's spoken query into text.
+- **Text-to-Speech (TTS):** Converting the system's generated response into spoken audio.
+
+The integration was not limited to making individual API requests. It was necessary to ensure that the speech services could become part of a complete conversational workflow.
+
+This phase established the voice-processing foundation on which the Warkari Intelligence Layer would subsequently operate.
+
+# 5. Phase 3 – Development of the Warkari Intelligence Layer
+
+Phase 3 was one of the most challenging and important stages of the project.
+
+The objective was to develop the Warkari Intelligence Layer: the component responsible for understanding user queries, interpreting their intent, generating contextually appropriate responses and delivering those responses through voice.
+
+A major part of the work involved iterative refinement.
+
+Initial responses and speech outputs did not always sound natural or appropriately contextualised. Certain words, place names and regional references were not being pronounced as intended.
+
+Instead of accepting the initial output, the intelligence and speech-processing components were repeatedly examined and refined.
+
+## 5.1 Conversational Intelligence
+
+The system was developed to distinguish between different categories of user queries, including:
+
+- General information requests.
+- Facility-related queries.
+- Route and location-related questions.
+- Helpline-related questions.
+- Emergency and incident-related requests.
+
+An important distinction was introduced between informational helpline enquiries and actual emergency requests.
+
+A user asking for information about a helpline should not automatically trigger incident creation.
+
+## 5.2 Speech Normalisation and Pronunciation Refinement
+
+One of the most interesting challenges involved making generated speech sound more relatable to the actual geographical and linguistic context of the Wari.
+
+Generic speech synthesis does not always pronounce regional place names correctly.
+
+To address this, dedicated pronunciation and speech-normalisation services were developed.
+
+The implementation included contextual pronunciation substitutions for names such as:
+
+| English representation | Marathi pronunciation |
+|---|---|
+| Pandharpur | पंढरपूर |
+| Wakhari | वाखरी |
+| Saswad | सासवड |
+| Jejuri | जेजुरी |
+| Lonand | लोणंद |
+| Phaltan | फलटण |
+| Velapur | वेळापूर |
+| Chandrabhaga | चंद्रभागा |
+| Dehu | देहू |
+| Alandi | आळंदी |
+| Vitthal | विठ्ठल |
+| Dnyaneshwar | ज्ञानेश्वर |
+| Tukaram | तुकाराम |
+
+These refinements helped make the generated speech more appropriate for the Warkari context.
+
+## 5.3 Expanding and Structuring the Information Database
+
+The intelligence layer required structured information to provide meaningful responses.
+
+The facility database was expanded to support relevant information and multilingual presentation.
+
+The implementation introduced language-specific fields for facility names, locations and descriptions.
+
+These included:
+
+- `name_en`
+- `name_hi`
+- `location_en`
+- `location_hi`
+- `description_en`
+- `description_hi`
+
+Marathi was retained as the canonical language for the initial facility information, with English translations populated for the available demonstration facilities.
+
+Where Hindi translations were unavailable, the application was designed to fall back to Marathi rather than display fabricated translations.
+
+The facility dataset was also explicitly treated as demonstration data. Facilities were marked as unverified demo records, ensuring that the application did not falsely represent synthetic information as confirmed operational services.
+
+## 5.4 Voice Interaction Refinement
+
+Another challenge was managing audio interruptions and repeated requests.
+
+The frontend audio implementation was refined to support:
+
+- Immediate audio stopping.
+- Request invalidation when a new request begins.
+- AbortController-based request cancellation.
+- Pause and resume controls.
+- Replay functionality.
+- A single authoritative audio reference.
+
+These changes improved the control and predictability of the voice interaction experience.
+
+**Outcome of Phase 3:** The project evolved from basic speech API integration into a context-aware voice assistance system with dedicated pronunciation handling, speech normalisation and structured information retrieval.
+
+# 6. Phase 4 – Backend Architecture and Application Logic
+
+Once the intelligence layer had taken shape, the next objective was to establish a more complete backend architecture.
+
+The backend was developed using Python and FastAPI, with SQLAlchemy handling database interactions.
+
+The application required more than simple API endpoints. It needed a structured foundation for users, authentication, incidents, volunteer coordination and operational records.
+
+## 6.1 Database Architecture
+
+The backend included the following major database tables:
+
+1. Users
+2. Volunteers
+3. Facilities
+4. Conversations
+5. Messages
+6. Incidents
+7. Volunteer Profiles
+8. Incident Assignments
+9. Incident Status History
+10. User Sessions
+11. Audit Logs
+
+These tables provided the foundation for the application's different workflows.
+
+## 6.2 Authentication and Role-Based Access Control
+
+An authentication framework was introduced with the following endpoints:
+
+- User registration
+- User login
+- Token refresh
+- User logout
+- Current-user information
+
+The authentication system incorporated password hashing, JWT-based access tokens and rotating refresh tokens.
+
+Role-based access control was introduced to distinguish between different categories of users.
+
+Public registration was restricted to pilgrim and pending-volunteer roles. Administrative and coordinator privileges were not intended to be granted through unrestricted public registration.
+
+## 6.3 Incident Tracking and Volunteer Coordination
+
+A structured incident management workflow was introduced.
+
+The system supported a lifecycle consisting of:
+
+**PENDING → ACCEPTED → EN_ROUTE → ON_SCENE → RESOLVED**
+
+The backend included endpoints for:
+
+- Creating and tracking public incidents.
+- Listing incidents for authorised coordinators.
+- Viewing eligible volunteers.
+- Assigning volunteers.
+- Accepting or rejecting assignments.
+- Updating incident progress.
+- Recording assignment history.
+- Maintaining audit logs.
+
+Public incident tracking was implemented using reference identifiers and protected tracking tokens.
+
+The system was designed to avoid exposing sensitive tracking information through unrestricted public endpoints.
+
+## 6.4 Data Integrity and Auditability
+
+The backend incorporated audit logging and database-level protections intended to prevent unauthorised modification or deletion of audit records.
+
+Rate limiting, authentication checks and role-based access controls were also incorporated into the application architecture.
+
+**Outcome of Phase 4:** Warkari developed from a voice assistance prototype into a more comprehensive application with authentication, incident management, volunteer coordination and structured data handling.
+
+# 7. Phase 5 – Frontend Design and User Experience
+
+With the backend and intelligence components taking shape, attention shifted towards creating the actual user-facing experience.
+
+One of the most important design decisions was to take inspiration from a real Warkari visual reference.
+
+Rather than building a generic dashboard or conventional AI chatbot interface, the intention was to make the frontend visually connected to the cultural and geographical identity of the Pandharpur Wari.
+
+The design process focused on translating that inspiration into a modern, accessible digital experience.
+
+The frontend was built using:
+
+- React
+- Vite
+- Tailwind CSS
+- Lucide icons
+
+The interface was developed to bring the voice assistant, information display and supporting application functionality together.
+
+The frontend also needed to communicate clearly across language options and distinguish between verified information and demonstration data.
+
+## 7.1 Frontend and Backend Integration
+
+The React frontend was connected to the FastAPI backend through HTTP API requests.
+
+The frontend was configured to support deployment-specific API addresses through environment variables.
+
+The key configuration variables included:
+
+- `VITE_API_URL`
+- `VITE_API_BASE_URL`
+
+The application was designed to use the deployed backend address in production rather than attempting to communicate with a local development server.
+
+## 7.2 Frontend Deployment on Vercel
+
+The frontend was deployed on Vercel.
+
+The repository was connected to the deployment platform, with the frontend directory configured as the project root.
+
+The production build used:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Frontend directory: `frontend`
+
+The frontend became accessible through:
+
+**https://warkarii.vercel.app**
+
+This completed the initial frontend hosting process.
+
+# 8. Phase 6 – Production Database, Backend Deployment and Integration
+
+Phase 6 involved connecting all the independently developed components and making Warkari accessible through a live production environment.
+
+This was arguably the most frustrating stage of the entire development journey because the application had to work across multiple independently configured platforms.
+
+The frontend, backend, database and external speech services all needed to communicate correctly.
+
+## 8.1 Migration from SQLite to Supabase PostgreSQL
+
+The development database initially used SQLite.
+
+For production, the database was migrated to PostgreSQL using Supabase.
+
+This involved:
+
+- Creating a dedicated production Supabase project.
+- Configuring PostgreSQL connectivity.
+- Preparing the database migration.
+- Preserving existing incident and facility records.
+- Migrating the application schema and data.
+- Verifying the resulting tables and records.
+
+The production database contained 11 principal application tables.
+
+The migration process also required careful treatment of historical incident records and newer tracking records.
+
+A separate staging environment was used to validate migration behaviour before production migration.
+
+Database integrity and record preservation were important priorities throughout this process.
+
+Row Level Security was enabled across the application tables in Supabase. The project also required careful consideration of how the server-side database connection interacted with PostgreSQL permissions and RLS.
+
+## 8.2 Backend Deployment on Render
+
+The FastAPI backend was deployed using Render.
+
+The backend repository was connected to Render, and the deployment configuration was established.
+
+The intended configuration was:
+
+**Build command:**
+
+`pip install -r requirements.txt`
+
+**Start command:**
+
+`uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+
+The backend was deployed at:
+
+**https://warkari-backend.onrender.com**
+
+However, the first deployment was not successful.
+
+The deployment process exposed a sequence of configuration and dependency issues.
+
+# 9. Deployment Challenges – Six Major Issues and Their Resolution
+
+The deployment process involved multiple failures that had to be diagnosed individually.
+
+These were not solved by repeatedly redeploying the same application. Each failure required identifying the actual cause and correcting the relevant configuration or dependency.
+
+## Issue 1 – Incorrect Backend Start Command
+
+The initial Render configuration contained an incorrect application startup command.
+
+The deployment attempted to use a Gunicorn WSGI-style application reference that did not correspond to the FastAPI application.
+
+**Resolution:** The startup command was corrected to use Uvicorn with the appropriate FastAPI application entry point.
+
+## Issue 2 – Python Module Import Failure
+
+After correcting the startup command, the backend encountered:
+
+`ModuleNotFoundError: No module named 'backend'`
+
+The issue was related to the Render root-directory configuration and Python import paths.
+
+The application used imports such as:
+
+`from backend.config import ...`
+
+However, the original deployment configuration did not expose the repository root in the expected way.
+
+**Resolution:** The Render root directory was corrected to the repository root, and the application was started using:
+
+`uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+
+## Issue 3 – Missing PostgreSQL Driver Module
+
+The next deployment failure involved:
+
+`ModuleNotFoundError: No module named 'psycopg'`
+
+The SQLAlchemy database connection was attempting to load a PostgreSQL driver that was not installed in the deployment environment.
+
+**Resolution:** The database URL and driver configuration were examined and aligned with the intended PostgreSQL driver.
+
+## Issue 4 – Missing `psycopg2` Dependency
+
+After adjusting the database URL to use the psycopg2 driver, another error appeared:
+
+`ModuleNotFoundError: No module named 'psycopg2'`
+
+The required driver was not present in the committed deployment requirements.
+
+**Resolution:** `psycopg2-binary` was added to the root and backend requirements files.
+
+This ensured that Render could install the PostgreSQL driver during the build process.
+
+## Issue 5 – Missing JWT Dependency
+
+The next runtime failure involved:
+
+`ModuleNotFoundError: No module named 'jwt'`
+
+The backend authentication implementation required the PyJWT package, but it was not included in the deployed dependency list.
+
+**Resolution:** PyJWT was added to both requirements files and included in the committed dependency configuration.
+
+## Issue 6 – Incorrect Frontend API Configuration
+
+Even after the backend dependencies were corrected, the frontend was not communicating with the intended backend.
+
+The issue was traced to the production API environment variable.
+
+At different points, the frontend configuration contained an incorrect URL or an incorrectly formatted value. In one instance, the frontend was effectively attempting to use its own Vercel domain instead of the Render backend.
+
+**Resolution:** The frontend API environment variable was corrected to use only the backend address:
+
+`https://warkari-backend.onrender.com`
+
+The frontend was then rebuilt and redeployed so that the production bundle contained the correct backend URL.
+
+CORS configuration was also checked to ensure that the deployed Vercel origin was allowed by the backend.
+
+These six issues represented the major deployment blockers. Additional integration and resilience work was still required after they were resolved.
+
+# 10. The Final Integration Challenge – Deployment Was Successful, but the Application Still Did Not Respond
+
+One of the most important lessons from the deployment process was that a successful build did not necessarily mean the complete application was operational.
+
+At this stage:
+
+- The frontend was deployed.
+- The backend was running.
+- The production database was available.
+- The environment variables had been configured.
+- The API address was corrected.
+
+However, the application still did not respond reliably as expected.
+
+This required another round of investigation.
+
+## 10.1 Investigating Database Connectivity
+
+The backend startup process was examined.
+
+A critical observation was that database initialisation occurred during the FastAPI application lifespan.
+
+The application called `init_db()` before completing startup.
+
+If the production database connection was slow or unavailable, this could prevent the backend from starting reliably.
+
+The database engine configuration also needed more robust connection handling.
+
+## 10.2 Database Connection Resilience
+
+The database configuration was updated with bounded connection and pooling behaviour for PostgreSQL.
+
+The implemented settings included:
+
+- `connect_timeout=5`
+- `pool_pre_ping=True`
+- `pool_recycle=300`
+- `pool_timeout=10`
+
+SQLite retained its own connection configuration rather than receiving PostgreSQL-specific settings.
+
+The startup initialisation process was also protected using exception handling so that a database initialisation failure would be logged instead of automatically preventing the application from reaching its lifespan yield.
+
+The objective was to make backend startup more resilient while ensuring that endpoints requiring the database could still report database failures appropriately.
+
+## 10.3 Final Backend Commit
+
+The final database resilience changes were committed and pushed to GitHub.
+
+**Commit:** `7629df1`
+
+**Commit message:**
+
+`fix(backend): add database connection resilience and startup protection`
+
+Only the following files were included in this commit:
+
+- `backend/database.py`
+- `backend/main.py`
+
+Render then automatically deployed the updated backend.
+
+# 11. Final Deployment Verification
+
+After the final changes were pushed, the deployed backend was checked.
+
+The following checks were confirmed:
+
+| Endpoint | Result |
+|---|---|
+| Backend root endpoint | HTTP 200 |
+| Backend health endpoint | HTTP 200 |
+| Root response | Application running |
+| Health response | Healthy |
+
+The backend root endpoint returned:
+
+`{"project":"Warkari","message":"Welcome to Warkari API","status":"running"}`
+
+The health endpoint returned:
+
+`{"status":"healthy"}`
+
+These checks confirmed that the deployed backend was responding.
+
+The health endpoint was recognised as a liveness check rather than a complete database-readiness check. Database connectivity and the actual voice pipeline required separate verification.
+
+The deployment process also included verification of the production API URL and CORS configuration.
+
+The final application architecture consisted of:
+
+| Component | Technology | Hosting |
+|---|---|---|
+| Frontend | React, Vite, Tailwind CSS | Vercel |
+| Backend | Python, FastAPI | Render |
+| Database | PostgreSQL | Supabase |
+| Speech services | Gnani APIs | External API integration |
+| Source control | Git and GitHub | GitHub |
+
+**Frontend:** https://warkarii.vercel.app  
+**Backend:** https://warkari-backend.onrender.com
+
+# 12. Technical Challenges and Lessons Learned
+
+The development of Warkari involved several important engineering lessons.
+
+### 12.1 Integration Is Different from Individual Component Development
+
+The frontend, backend, database and external APIs could each function independently while the complete application still failed.
+
+The project demonstrated the importance of testing the entire communication chain.
+
+### 12.2 Production Configuration Must Be Explicit
+
+Environment variables, dependency files, root directories, application startup commands and database connection strings must all be consistent across deployment platforms.
+
+A small configuration error can prevent an otherwise functional application from running.
+
+### 12.3 Voice Interfaces Require More Than Speech Recognition
+
+A voice-first platform needs to handle pronunciation, language context, speech normalisation, audio playback and interruptions.
+
+The Warkari Intelligence Layer therefore required dedicated engineering beyond simply connecting an STT and TTS API.
+
+### 12.4 Data Integrity Is Essential
+
+Migrating a development database into production requires careful preservation of existing records, schema consistency and verification.
+
+The project used staging validation and separate production migration checks to reduce the risk of data loss.
+
+### 12.5 A Successful Deployment Is Not the Same as Production Readiness
+
+A live URL is only the beginning of operational verification.
+
+Database readiness, voice interactions, browser permissions, audio playback, security, performance and real-world information accuracy all need to be evaluated.
+
+The current platform should be treated as a deployed prototype until these operational and safety requirements are fully validated.
+
+# 13. Project Outcome
+
+Warkari successfully progressed through conceptualisation, voice integration, intelligence-layer development, backend implementation, frontend development, database migration and cloud deployment.
+
+The final deployment brought together multiple technologies and independently configured services into one application.
+
+The project now has:
+
+- A deployed React frontend.
+- A deployed FastAPI backend.
+- A production PostgreSQL database.
+- Integrated Gnani speech services.
+- A multilingual assistance architecture.
+- Dedicated pronunciation and speech-normalisation logic.
+- Authentication and role-based access control.
+- Incident tracking and volunteer coordination workflows.
+- Structured facility information.
+- A GitHub-based source control and deployment workflow.
+
+The application is accessible through its deployed frontend and backend addresses.
+
+# 14. Future Scope
+
+The next stage of development should focus on strengthening the platform for realistic field use.
+
+Potential improvements include:
+
+1. End-to-end testing of microphone input, speech recognition, response generation and audio playback across supported browsers and devices.
+2. Improving performance and availability of the backend and database.
+3. Introducing verified, regularly maintained facility information.
+4. Completing security reviews of authentication, refresh-token handling, CSRF protections and database access.
+5. Evaluating rate limiting and abuse protection in a multi-instance deployment environment.
+6. Conducting controlled usability testing with actual Warkari participants and volunteers.
+7. Improving accessibility for users with limited digital literacy.
+8. Establishing a reliable operational process for incident escalation and volunteer coordination.
+
+Emergency-related functionality must not be represented as a live emergency dispatch service unless the necessary integrations, personnel and operational procedures are actually established.
+
+# 15. Conclusion
+
+Warkari was not developed through a single implementation cycle. It evolved through a sequence of engineering decisions, integration challenges, failed deployments, debugging sessions and repeated refinements.
+
+The journey began with a simple objective: to make assistance more accessible to pilgrims through a voice-first digital platform.
+
+It gradually evolved into a system combining conversational intelligence, speech processing, structured information, authentication, incident tracking, volunteer coordination and cloud infrastructure.
+
+Some of the most challenging work happened after the application itself had already been built. Connecting the frontend to the backend, migrating the database, resolving deployment dependencies, correcting environment variables and improving database connection resilience required a separate and sustained engineering effort.
+
+The final deployment represents the culmination of these six development phases.
+
+**Warkari is now live.**
+
+More importantly, the project demonstrates the complete journey of taking an idea from initial architecture to an integrated, cloud-deployed application while learning to diagnose and solve real-world software engineering problems along the way.
+
+---
+
+**Project Repository:** https://github.com/Manasvi-hub/Warkari  
+**Live Frontend:** https://warkarii.vercel.app  
+**Backend API:** https://warkari-backend.onrender.com
+
+**End of Report**

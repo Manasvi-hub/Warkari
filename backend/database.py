@@ -10,12 +10,23 @@ db_url = settings.DATABASE_URL
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
 
-# For SQLite, check_same_thread=False allows multi-threaded request processing in FastAPI
-connect_args = {"check_same_thread": False} if db_url.startswith("sqlite") else {}
+# Configure connection arguments and pool parameters based on engine type
+if db_url.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+    pool_kwargs = {}
+else:
+    # Explicit 5-second socket timeout and resilient connection pooling for PostgreSQL
+    connect_args = {"connect_timeout": 5}
+    pool_kwargs = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+        "pool_timeout": 10
+    }
 
 engine = create_engine(
     db_url,
     connect_args=connect_args,
+    **pool_kwargs,
     echo=False
 )
 

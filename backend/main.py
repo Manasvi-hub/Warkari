@@ -3,6 +3,7 @@
 FastAPI REST API supporting the Warkari voice-first pilgrimage assistance platform.
 """
 
+import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,14 +17,18 @@ from backend.routes.auth import router as auth_router
 from backend.routes.incident_workflow import router as incident_workflow_router
 from backend.schemas import RootResponse
 
+logger = logging.getLogger("warkari.startup")
 settings = get_settings()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifecycle manager handling application startup and graceful shutdown."""
-    # Startup: Initialize SQLite database and models
-    init_db()
+    # In production, tables are pre-migrated. Attempt schema validation safely
+    try:
+        init_db()
+    except Exception as exc:
+        logger.error("Database initialization check failed during startup: %s", exc)
     yield
     # Shutdown: Clean up resources if necessary
 
